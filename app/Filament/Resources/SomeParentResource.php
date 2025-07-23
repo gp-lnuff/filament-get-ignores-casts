@@ -9,6 +9,8 @@ use App\Models\SomeParent\Enums\SomeEnum;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -31,10 +33,9 @@ class SomeParentResource extends Resource {
     public static function form(Form $form): Form {
         return $form
             ->schema([
-                Select::make('some_field')
+                Radio::make('some_field')
                     ->options(SomeEnum::class)
                     ->default(SomeEnum::Second)
-                    ->selectablePlaceholder(false)
                     ->live(),
                 Checkbox::make('other_field')
                     ->disabled(fn(Get $get) => $get('some_field') === SomeEnum::Second)
@@ -43,12 +44,12 @@ class SomeParentResource extends Resource {
                     ->tabs([
                         Tabs\Tab::make('first')
                             ->schema([
-                                Fieldset::make('Child')
+                                Grid::make(1)
                                     ->relationship('someChild')
                                     ->schema([
                                         Checkbox::make('child_field')
-                                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
-                                            ->live()
+                                            ->required(fn(Get $get) => dd($get('../*')) === SomeEnum::Second)
+
 
                                     ])
                             ])
