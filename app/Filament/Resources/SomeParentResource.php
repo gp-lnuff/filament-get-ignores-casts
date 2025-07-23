@@ -44,7 +44,7 @@ class SomeParentResource extends Resource {
                                     ->relationship('someChild')
                                     ->schema([
                                         Checkbox::make('child_field')
-                                            ->required(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
+                                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
 
 
                                     ])
