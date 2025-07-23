@@ -10,6 +10,8 @@ use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
@@ -19,7 +21,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PhpOption\Some;
 
 class SomeParentResource extends Resource {
 
@@ -38,13 +39,20 @@ class SomeParentResource extends Resource {
                 Checkbox::make('other_field')
                     ->disabled(fn(Get $get) => $get('some_field') === SomeEnum::Second)
                     ->live(),
-                Fieldset::make('Child')
-                    ->schema([
-                        Checkbox::make('child_field')
-                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
-                            ->live()
-                    ])
+                Tabs::make('tabs')
+                    ->tabs([
+                        Tabs\Tab::make('first')
+                            ->schema([
+                                Fieldset::make('Child')
+                                    ->relationship('someChild')
+                                    ->schema([
+                                        Checkbox::make('child_field')
+                                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
+                                            ->live()
 
+                                    ])
+                            ])
+                    ])
             ]);
     }
 
