@@ -6,27 +6,19 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Grid;
 use Filament\Actions\EditAction;
 use App\Filament\Resources\SomeParentResource\Pages\ListSomeParents;
 use App\Filament\Resources\SomeParentResource\Pages\CreateSomeParent;
 use App\Filament\Resources\SomeParentResource\Pages\EditSomeParent;
-use App\Filament\Resources\SomeParentResource\Pages;
-use App\Filament\Resources\SomeParentResource\RelationManagers;
 use App\Models\SomeParent;
 use App\Models\SomeParent\Enums\SomeEnum;
-use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SomeParentResource extends Resource {
 
@@ -48,11 +40,11 @@ class SomeParentResource extends Resource {
                     ->tabs([
                         Tab::make('first')
                             ->schema([
-                                Grid::make(1)
+                                Fieldset::make('field')
                                     ->relationship('someChild')
                                     ->schema([
                                         Checkbox::make('child_field')
-                                            ->required(fn(Get $get) => dd($get('../*')) === SomeEnum::Second)
+                                            ->required(fn(Get $get) => dd($get('../some_field')) === SomeEnum::Second)
 
 
                                     ])
