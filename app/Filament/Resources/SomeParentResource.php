@@ -36,15 +36,20 @@ class SomeParentResource extends Resource {
                 Checkbox::make('other_field')
                     ->disabled(fn(Get $get) => $get('some_field') === SomeEnum::Second)
                     ->live(),
-                Fieldset::make('Child')
-                    ->relationship('someChild')
-                    ->schema([
-                        Checkbox::make('child_field')
-                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
+                Tabs::make('tabs')
+                    ->tabs([
+                        Tab::make('first')
+                            ->schema([
+                                Fieldset::make('Child')
+                                    ->relationship('someChild')
+                                    ->schema([
+                                        Checkbox::make('child_field')
+                                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
 
 
+                                    ])
+                            ])
                     ])
-
             ]);
     }
 
