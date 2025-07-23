@@ -44,11 +44,11 @@ class SomeParentResource extends Resource {
                     ->tabs([
                         Tabs\Tab::make('first')
                             ->schema([
-                                Grid::make(1)
+                                Fieldset::make('Child')
                                     ->relationship('someChild')
                                     ->schema([
                                         Checkbox::make('child_field')
-                                            ->required(fn(Get $get) => dd($get('../*')) === SomeEnum::Second)
+                                            ->disabled(fn(Get $get) => $get('../some_field') === SomeEnum::Second)
 
 
                                     ])
